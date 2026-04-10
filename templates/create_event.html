@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI';
+            background: linear-gradient(135deg,#141e30,#243b55);
+            color: white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .form-box {
+            background: rgba(255,255,255,0.1);
+            padding:30px;
+            border-radius:15px;
+            width:300px;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        input, textarea {
+            width:100%;
+            margin-bottom:15px;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+            outline:none;
+        }
+
+        button {
+            width:100%;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+            background:#00ffd5;
+            cursor:pointer;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        button:hover {
+            background:#00c2a8;
+            transform:scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h2>Create Event</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="title" placeholder="Event Title" required>
+        <textarea name="description" placeholder="Description" required></textarea>
+        <input type="text" name="location" placeholder="Location (City)" required>
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+</body>
+</html>
