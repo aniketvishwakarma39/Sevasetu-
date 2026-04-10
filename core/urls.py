@@ -11,4 +11,6 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('sponsor/<int:event_id>/', views.sponsor_event, name='sponsor_event'),
     path('dashboard/', views.creator_dashboard, name='dashboard'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('my-dashboard/', views.my_dashboard, name='my_dashboard'),
 ]

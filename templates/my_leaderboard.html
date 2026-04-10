@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Dashboard</title>
+
+<style>
+body {
+    background:#0f2027;
+    color:white;
+    font-family:sans-serif;
+    padding:20px;
+    text-align:center;
+}
+
+.box {
+    background:#203a43;
+    padding:30px;
+    border-radius:15px;
+    display:inline-block;
+}
+</style>
+</head>
+
+<body>
+
+<h2>👤 My Dashboard</h2>
+
+<div class="box">
+    <p><strong>Username:</strong> {{ profile.user.username }}</p>
+    <p><strong>Points:</strong> {{ profile.points }}</p>
+    <p><strong>Rank:</strong> #{{ rank }}</p>
+</div>
+
+</body>
+</html>

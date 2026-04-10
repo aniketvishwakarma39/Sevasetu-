@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Leaderboard</title>
+
+<style>
+body {
+    background:#0f2027;
+    color:white;
+    font-family:sans-serif;
+    padding:20px;
+}
+
+h2 {
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.card {
+    background:#203a43;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.rank1 {background:gold;color:black;}
+.rank2 {background:silver;color:black;}
+.rank3 {background:#cd7f32;color:black;}
+</style>
+</head>
+
+<body>
+
+<h2>🏆 Leaderboard</h2>
+
+{% for p in profiles %}
+<div class="card {% if forloop.counter == 1 %}rank1{% elif forloop.counter == 2 %}rank2{% elif forloop.counter == 3 %}rank3{% endif %}">
+    <div>
+        <strong>#{{ forloop.counter }} {{ p.user.username }}</strong>
+    </div>
+    <div>
+        Points: {{ p.points }}
+    </div>
+</div>
+{% endfor %}
+
+</body>
+</html>
