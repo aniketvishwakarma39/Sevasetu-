@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sponsor Event</title>
+
+<style>
+body {
+    background:#0f2027;
+    color:white;
+    font-family:sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box {
+    background:#203a43;
+    padding:20px;
+    border-radius:10px;
+}
+
+input {
+    padding:10px;
+    width:100%;
+    margin-bottom:10px;
+}
+
+button {
+    padding:10px;
+    width:100%;
+    background:#00ffd5;
+    border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Sponsor this Event</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="number" name="amount" placeholder="Enter Amount" required>
+        <button type="submit">Donate</button>
+    </form>
+</div>
+
+</body>
+</html>

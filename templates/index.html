@@ -1,170 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SevaSetu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SevaSetu</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
+<style>
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', sans-serif;}
 
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-        }
+body {
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-        }
+/* HEADER */
+header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+}
 
-        header h1 {
-            color: #00ffd5;
-        }
+header h1 {color:#00ffd5;}
 
-        nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: white;
-            transition: 0.3s;
-        }
+nav a {
+    margin-left:20px;
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
+}
+nav a:hover {color:#00ffd5;}
 
-        nav a:hover {
-            color: #00ffd5;
-        }
+/* HERO */
+.hero {
+    text-align:center;
+    padding:70px 20px;
+    animation: fadeIn 1s ease;
+}
 
-        .hero {
-            text-align: center;
-            padding: 70px 20px;
-            animation: fadeIn 1.2s ease;
-        }
+.hero h2 {font-size:2.5rem;margin-bottom:10px;}
+.hero p {margin-bottom:20px;color:#ccc;}
 
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
+.hero input {
+    padding:10px;
+    border-radius:20px;
+    border:none;
+    width:250px;
+    outline:none;
+}
 
-        .hero p {
-            margin-bottom: 20px;
-            color: #ccc;
-        }
+.hero button {
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#00ffd5;
+    cursor:pointer;
+    margin-left:10px;
+    transition:0.3s;
+}
+.hero button:hover {
+    background:#00c2a8;
+    transform:scale(1.05);
+}
 
-        .hero input {
-            padding: 10px;
-            border-radius: 20px;
-            border: none;
-            width: 250px;
-            outline: none;
-        }
+/* EVENTS */
+.events {
+    padding:50px;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap:20px;
+}
 
-        .hero button {
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            background: #00ffd5;
-            cursor: pointer;
-            font-weight: bold;
-            margin-left: 10px;
-            transition: 0.3s;
-        }
+.card {
+    background: rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:15px;
+    backdrop-filter: blur(10px);
+    transition:0.3s;
+}
 
-        .hero button:hover {
-            background: #00c2a8;
-            transform: scale(1.05);
-        }
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
 
-        .events {
-            padding: 50px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
+.card h3 {margin-bottom:8px;}
+.card p {color:#ddd;font-size:14px;}
 
-        .card {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-        }
+/* BUTTON GROUP */
+.actions {
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+}
 
-        .card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
+/* BUTTONS */
+.join-btn {
+    background:#00ffd5;
+    border:none;
+    padding:8px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.join-btn:hover {
+    background:#00c2a8;
+}
 
-        .card h3 {
-            margin-bottom: 10px;
-        }
+.sponsor-btn {
+    background:orange;
+    border:none;
+    padding:8px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.sponsor-btn:hover {
+    background:darkorange;
+}
 
-        .card p {
-            font-size: 14px;
-            color: #ddd;
-        }
+.login-btn {
+    background:#555;
+    border:none;
+    padding:8px 15px;
+    border-radius:10px;
+    color:white;
+}
 
-        .card button {
-            margin-top: 10px;
-            padding: 8px 15px;
-            border-radius: 10px;
-            border: none;
-            background: #00ffd5;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+/* FOOTER */
+footer {
+    text-align:center;
+    padding:20px;
+    background:rgba(0,0,0,0.3);
+}
 
-        .card button:hover {
-            background: #00c2a8;
-        }
+/* ANIMATION */
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media(max-width:768px){
-            header {
-                flex-direction: column;
-            }
-
-            .hero input {
-                width: 200px;
-                margin-bottom: 10px;
-            }
-
-            .hero button {
-                margin-left: 0;
-            }
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:768px){
+    header {flex-direction:column;}
+    .hero input {width:200px;margin-bottom:10px;}
+}
+</style>
 </head>
 
 <body>
 
 <header>
     <h1>SevaSetu</h1>
+
     <nav>
-        <a href="#">Home</a>
-        <a href="/create-event/">Create Event</a>
-        <a href="/login/">Login</a>
+        <a href="/home/">Home</a>
+        <a href="/leaderboard/">Leaderboard 🏆</a>
+
+        {% if user.is_authenticated %}
+            {% if user.role == 'creator' %}
+                <a href="/dashboard/">Dashboard</a>
+            {% endif %}
+            <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/login/">Login</a>
+        {% endif %}
     </nav>
 </header>
 
@@ -176,35 +176,52 @@
     <button onclick="searchLocation()">Search</button>
 </section>
 
-<section class="events" id="events">
+<section class="events">
 
     {% for event in events %}
     <div class="card">
         <h3>{{ event.title }}</h3>
         <p>{{ event.description }}</p>
         <p><strong>{{ event.location }}</strong></p>
-        <button onclick="joinEvent(this)">Join</button>
+
+        <div class="actions">
+
+        {% if user.is_authenticated %}
+
+            {% if event.id %}
+            <a href="{% url 'join_event' event.id %}">
+                <button class="join-btn">Join</button>
+            </a>
+
+            <a href="{% url 'sponsor_event' event.id %}">
+                <button class="sponsor-btn">Sponsor</button>
+            </a>
+            {% endif %}
+
+        {% else %}
+            <a href="/login/">
+                <button class="login-btn">Login</button>
+            </a>
+        {% endif %}
+
+        </div>
     </div>
+
     {% empty %}
-    <p>No events found in this area 😢</p>
+    <p>No events found 😢</p>
     {% endfor %}
 
 </section>
 
 <footer>
-    <p>© 2026 SevaSetu | Built for Hackathon 🚀</p>
+    <p>© 2026 SevaSetu | Hackathon Project 🚀</p>
 </footer>
 
 <script>
-    function joinEvent(btn){
-        btn.innerText = "Joined ✔";
-        btn.style.background = "green";
-    }
-
-    function searchLocation(){
-        let loc = document.getElementById("locationInput").value;
-        window.location.href = `/?location=${loc}`;
-    }
+function searchLocation(){
+    let loc = document.getElementById("locationInput").value;
+    window.location.href = `/?location=${loc}`;
+}
 </script>
 
 </body>

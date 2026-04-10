@@ -8,17 +8,11 @@ class User(AbstractUser):
         ('sponsor', 'Sponsor'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    email = models.EmailField(blank=True)
 
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='core_user_set',   # 🔥 FIX
-        blank=True,
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='core_user_permissions_set',  # 🔥 FIX
-        blank=True,
-    )
+    groups = models.ManyToManyField('auth.Group', related_name='core_user_set', blank=True)
+    user_permissions = models.ManyToManyField('auth.Permission', related_name='core_user_permissions_set', blank=True)
+
 
 class Event(models.Model):
     title = models.CharField(max_length=100)
@@ -33,3 +27,19 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Participation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} joined {self.event}"
+    
+class Sponsorship(models.Model):
+    sponsor = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.sponsor} sponsored {self.event}"
