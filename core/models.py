@@ -20,6 +20,8 @@ class Event(models.Model):
     location = models.CharField(max_length=100)
     normalized_location = models.CharField(max_length=100)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField(null=True, blank=True)   # 🔥 NEW
+    end_date = models.DateField(null=True, blank=True)     # 🔥 NEW
 
     def save(self, *args, **kwargs):
         self.normalized_location = self.location.lower().strip()

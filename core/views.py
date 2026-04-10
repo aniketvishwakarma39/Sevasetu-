@@ -30,6 +30,8 @@ def update_badge(profile):
 
 # 🏠 HOME
 def home(request):
+    delete_expired_events()  # 🔥 AUTO DELETE
+
     query = request.GET.get('location')
 
     if query:
@@ -49,13 +51,20 @@ def create_event(request):
         Event.objects.create(
             title=request.POST['title'],
             description=request.POST['description'],
+            start_date=request.POST['start_date'],   # 🔥 NEW
+            end_date=request.POST['end_date'],       # 🔥 NEW
+
             location=request.POST['location'],
             created_by=request.user
         )
         return redirect('dashboard')
 
     return render(request, 'create_event.html')
+from django.utils import timezone
 
+def delete_expired_events():
+    today = timezone.now().date()
+    Event.objects.filter(end_date__lt=today).delete()
 
 # 🙋 JOIN EVENT + POINTS
 def join_event(request, event_id):
