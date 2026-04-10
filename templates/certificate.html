@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +16,8 @@ body {
     width: 1000px;
     height: 600px;
     position: relative;
-    background: url("file:///C:/Users/Manoraj78/Desktop/sevasetu/static/images/certificate_bg.jpeg") no-repeat center;
-    background-size: cover;
+background: url("{% static 'images/certificate_bg.jpeg' %}") no-repeat center;
+background-size: cover;    background-size: cover;
 }
 
 /* NAME */
@@ -27,6 +28,7 @@ body {
     transform: translateX(-50%);
     font-size: 38px;
     font-weight: bold;
+    margin-left: 160px;
     color: #2e7d32;
 }
 
@@ -36,13 +38,15 @@ body {
     bottom: 80px;
     left: 200px;
     font-size: 14px;
+    margin-left:-160px;
+    margin-bottom: 40px;
 }
 
-/* BADGE */
 .badge {
     position: absolute;
     top: 360px;
     left: 50%;
+    margin-left: 170px;
     transform: translateX(-50%);
     font-size: 16px;
     color: #333;
