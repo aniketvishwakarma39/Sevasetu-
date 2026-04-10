@@ -13,4 +13,5 @@ urlpatterns = [
     path('dashboard/', views.creator_dashboard, name='dashboard'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('my-dashboard/', views.my_dashboard, name='my_dashboard'),
+    path('certificate/', views.generate_certificate, name='certificate'),
 ]

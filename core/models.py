@@ -55,3 +55,11 @@ from django.dispatch import receiver
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+        
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+    badge = models.CharField(max_length=50, default="Beginner")
+
+    def __str__(self):
+        return self.user.username

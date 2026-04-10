@@ -32,19 +32,35 @@ h2 {
 </head>
 
 <body>
-
 <h2>🏆 Leaderboard</h2>
 
 {% for p in profiles %}
-<div class="card {% if forloop.counter == 1 %}rank1{% elif forloop.counter == 2 %}rank2{% elif forloop.counter == 3 %}rank3{% endif %}">
-    <div>
-        <strong>#{{ forloop.counter }} {{ p.user.username }}</strong>
-    </div>
-    <div>
-        Points: {{ p.points }}
-    </div>
+<div class="card 
+    {% if forloop.counter == 1 %}rank1
+    {% elif forloop.counter == 2 %}rank2
+    {% elif forloop.counter == 3 %}rank3
+    {% endif %}
+">
+
+    <p><strong>#{{ forloop.counter }} {{ p.user.username }}</strong></p>
+    <p>Points: {{ p.points }}</p>
+    <p>Badge: {{ p.badge }}</p>
+
+    {% if p.user.id == request.user.id %}
+        
+        {% if p.points >= 50 %}
+        <a href="/certificate/">
+            <button style="padding:8px;background:green;color:white;border:none;border-radius:8px;">
+                Download Certificate 🎓
+            </button>
+        </a>
+        {% else %}
+            <p>🔒 Earn more points</p>
+        {% endif %}
+
+    {% endif %}
+
 </div>
 {% endfor %}
-
 </body>
 </html>

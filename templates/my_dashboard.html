@@ -18,6 +18,16 @@ body {
     border-radius:15px;
     display:inline-block;
 }
+
+button {
+    margin-top:15px;
+    padding:10px;
+    background:green;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
 </style>
 </head>
 
@@ -29,6 +39,15 @@ body {
     <p><strong>Username:</strong> {{ profile.user.username }}</p>
     <p><strong>Points:</strong> {{ profile.points }}</p>
     <p><strong>Rank:</strong> #{{ rank }}</p>
+    <p><strong>Badge:</strong> {{ profile.badge }}</p>
+
+    {% if profile.points >= 50 %}
+    <a href="/certificate/">
+        <button>Download Certificate 🎓</button>
+    </a>
+    {% else %}
+        <p>🔒 Earn 50 points to unlock certificate</p>
+    {% endif %}
 </div>
 
 </body>

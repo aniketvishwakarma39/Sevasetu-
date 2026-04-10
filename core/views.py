@@ -2,11 +2,33 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import pdfkit
+import os
+from datetime import date
 from .models import Event, Participation, Sponsorship, Profile
 
 User = get_user_model()
 
 
+# 🔥 BADGE SYSTEM
+def update_badge(profile):
+    points = profile.points
+
+    if points >= 1000:
+        profile.badge = "Champion 🏆"
+    elif points >= 500:
+        profile.badge = "Contributor 🟡"
+    elif points >= 50:
+        profile.badge = "Active 🔵"
+    else:
+        profile.badge = "Beginner 🟢"
+
+    profile.save()
+
+
+# 🏠 HOME
 def home(request):
     query = request.GET.get('location')
 
@@ -20,6 +42,7 @@ def home(request):
     return render(request, 'index.html', {'events': events})
 
 
+# ➕ CREATE EVENT
 @login_required
 def create_event(request):
     if request.method == 'POST':
@@ -34,6 +57,7 @@ def create_event(request):
     return render(request, 'create_event.html')
 
 
+# 🙋 JOIN EVENT + POINTS
 def join_event(request, event_id):
     if request.user.is_authenticated:
         obj, created = Participation.objects.get_or_create(
@@ -41,14 +65,15 @@ def join_event(request, event_id):
             event_id=event_id
         )
 
-        # 🔥 POINTS ADD
         if created:
-            request.user.profile.points += 10
-            request.user.profile.save()
+            profile, _ = Profile.objects.get_or_create(user=request.user)
+            profile.points += 10
+            update_badge(profile)
 
     return redirect('home')
 
 
+# 💰 SPONSOR EVENT + POINTS
 @login_required
 def sponsor_event(request, event_id):
     if request.method == 'POST':
@@ -60,15 +85,16 @@ def sponsor_event(request, event_id):
             amount=amount
         )
 
-        # 🔥 POINTS ADD
-        request.user.profile.points += amount // 10
-        request.user.profile.save()
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        profile.points += amount // 10
+        update_badge(profile)
 
         return redirect('home')
 
     return render(request, 'sponsor.html')
 
 
+# 🔐 LOGIN
 def login_view(request):
     if request.method == 'POST':
         user = authenticate(
@@ -88,11 +114,13 @@ def login_view(request):
     return render(request, 'login.html')
 
 
+# 🚪 LOGOUT
 def logout_view(request):
     logout(request)
     return redirect('home')
 
 
+# 🆕 SIGNUP
 def signup_view(request):
     if request.method == 'POST':
         User.objects.create_user(
@@ -106,6 +134,7 @@ def signup_view(request):
     return render(request, 'signup.html')
 
 
+# 📊 CREATOR DASHBOARD
 @login_required
 def creator_dashboard(request):
     if request.user.role != 'creator':
@@ -122,14 +151,16 @@ def creator_dashboard(request):
     })
 
 
+# 🏆 LEADERBOARD
 def leaderboard(request):
     profiles = Profile.objects.all().order_by('-points')
     return render(request, 'leaderboard.html', {'profiles': profiles})
 
 
+# 👤 MY DASHBOARD
 @login_required
 def my_dashboard(request):
-    profile = request.user.profile
+    profile, _ = Profile.objects.get_or_create(user=request.user)
 
     rank = Profile.objects.filter(points__gt=profile.points).count() + 1
 
@@ -137,3 +168,38 @@ def my_dashboard(request):
         'profile': profile,
         'rank': rank
     })
+
+
+# 🎓 CERTIFICATE DOWNLOAD (PDF)
+from django.conf import settings
+import os
+
+@login_required
+def generate_certificate(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    # ✅ correct HTML render
+    html = render_to_string('certificate.html', {
+        'user': request.user,
+        'profile': profile,
+        'today': date.today().strftime("%d %B %Y")
+    })
+
+    # ✅ wkhtmltopdf config
+    config = pdfkit.configuration(
+        wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    )
+
+    # ✅ important fix (image + CSS support)
+    pdf = pdfkit.from_string(
+        html,
+        False,
+        configuration=config,
+        options={"enable-local-file-access": ""}
+    )
+
+    # ✅ response
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="certificate.pdf"'
+
+    return response
