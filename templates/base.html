@@ -1,0 +1,75 @@
+<div id="chatbot" style="
+position:fixed;
+bottom:20px;
+right:20px;
+width:320px;
+background:white;
+border-radius:12px;
+box-shadow:0 0 15px rgba(0,0,0,0.2);
+padding:10px;
+font-family:sans-serif;
+">
+
+    <div style="font-weight:bold;margin-bottom:5px;">🤖 SevaBot</div>
+
+    <div id="messages" style="height:220px;overflow-y:auto;font-size:14px;"></div>
+
+    <input id="userInput" placeholder="Type message..." style="width:70%;padding:5px;">
+    <button onclick="sendMessage()">Send</button>
+
+</div>
+
+<script>
+function sendMessage() {
+    let msg = document.getElementById("userInput").value.toLowerCase();
+    let box = document.getElementById("messages");
+
+    if(!msg) return;
+
+    box.innerHTML += `<p><b>You:</b> ${msg}</p>`;
+
+    // 🔥 NEARBY FEATURE
+    if (msg.includes("nearby")) {
+
+        if (!navigator.geolocation) {
+            box.innerHTML += `<p><b>Bot:</b> ❌ Location not supported</p>`;
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(pos) {
+                let lat = pos.coords.latitude;
+                let lon = pos.coords.longitude;
+
+                // 🗺️ MAP OPEN (NEW FEATURE)
+                window.open(`https://www.google.com/maps?q=${lat},${lon}`);
+
+                fetch(`/chatbot/?msg=${msg}&lat=${lat}&lon=${lon}`)
+                .then(res => res.json())
+                .then(data => {
+                    box.innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
+                    box.scrollTop = box.scrollHeight;
+                });
+            },
+
+            function(error) {
+                box.innerHTML += `<p><b>Bot:</b> ❌ Please allow location access 📍</p>`;
+            }
+
+        );
+
+    } else {
+
+        fetch(`/chatbot/?msg=${msg}`)
+        .then(res => res.json())
+        .then(data => {
+            box.innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
+            box.scrollTop = box.scrollHeight;
+        });
+
+    }
+
+    document.getElementById("userInput").value = "";
+}
+</script>
