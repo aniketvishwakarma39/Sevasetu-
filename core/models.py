@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
+# ================= USER =================
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('volunteer', 'Volunteer'),
@@ -14,14 +16,17 @@ class User(AbstractUser):
     user_permissions = models.ManyToManyField('auth.Permission', related_name='core_user_permissions_set', blank=True)
 
 
+# ================= EVENT =================
 class Event(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     location = models.CharField(max_length=100)
     normalized_location = models.CharField(max_length=100)
+
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField(null=True, blank=True)   # 🔥 NEW
-    end_date = models.DateField(null=True, blank=True)     # 🔥 NEW
 
     def save(self, *args, **kwargs):
         self.normalized_location = self.location.lower().strip()
@@ -31,33 +36,42 @@ class Event(models.Model):
         return self.title
 
 
+# ================= PARTICIPATION =================
 class Participation(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
     def __str__(self):
-        return f"{self.user} joined {self.event}"
-    
+        return f"{self.user} - {self.status}"
+
+
+# ================= SPONSORSHIP =================
 class Sponsorship(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+
     sponsor = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     amount = models.IntegerField()
 
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
     def __str__(self):
-        return f"{self.sponsor} sponsored {self.event}"
-    
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    points = models.IntegerField(default=0)
+        return f"{self.sponsor} - {self.amount} - {self.status}"
 
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-        
+# ================= PROFILE =================
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
@@ -65,3 +79,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# ================= SIGNAL =================
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

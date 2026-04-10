@@ -3,75 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Event</title>
+    <title>Create Event | SevaSetu</title>
 
     <style>
         body {
-            font-family: 'Segoe UI';
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
             background: linear-gradient(135deg,#141e30,#243b55);
             color: white;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
+        }
+
+        /* 🔥 NAVBAR */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111;
+            padding: 15px 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #00ffd5;
+        }
+
+        .sos {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* 🔥 FORM SECTION */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
         }
 
         .form-box {
             background: rgba(255,255,255,0.1);
-            padding:30px;
-            border-radius:15px;
-            width:300px;
+            padding: 30px;
+            border-radius: 15px;
+            width: 320px;
             backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
         }
 
         h2 {
-            text-align:center;
-            margin-bottom:20px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         input, textarea {
-            width:100%;
-            margin-bottom:15px;
-            padding:10px;
-            border:none;
-            border-radius:8px;
-            outline:none;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
         }
 
         button {
-            width:100%;
-            padding:10px;
-            border:none;
-            border-radius:8px;
-            background:#00ffd5;
-            cursor:pointer;
-            font-weight:bold;
-            transition:0.3s;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #00ffd5;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
         button:hover {
-            background:#00c2a8;
-            transform:scale(1.05);
+            background: #00c2a8;
+            transform: scale(1.05);
+        }
+
+        label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: block;
         }
     </style>
 </head>
 
 <body>
 
-<div class="form-box">
-    <h2>Create Event</h2>
+<!-- 🔥 NAVBAR -->
+<nav>
+    <div>
+        <a href="/home/">Home</a>
+        <a href="/sos/" class="sos">SOS 🚨</a>
+        <a href="/leaderboard/">Leaderboard</a>
+    </div>
 
-    <form method="POST">
-        {% csrf_token %}
+    <div>
+        <a href="/dashboard/">Dashboard</a>
+        <a href="/logout/">Logout</a>
+    </div>
+</nav>
 
-        <input type="text" name="title" placeholder="Event Title" required>
-        <textarea name="description" placeholder="Description" required></textarea>
-        <input type="text" name="location" placeholder="Location (City)" required>
-        <input type="date" name="start_date" required>   <!-- NEW -->
-        <input type="date" name="end_date" required>     <!-- NEW -->
+<!-- 🔥 FORM -->
+<div class="container">
+    <div class="form-box">
 
-        <button type="submit">Create</button>
-    </form>
+        <h2>Create Event</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="text" name="title" placeholder="Event Title" required>
+
+            <textarea name="description" placeholder="Event Description" rows="3" required></textarea>
+
+            <input type="text" name="location" placeholder="Location (City)" required>
+
+            <label>Start Date</label>
+            <input type="date" name="start_date" required>
+
+            <label>End Date</label>
+            <input type="date" name="end_date" required>
+
+            <button type="submit">Create Event 🚀</button>
+        </form>
+
+    </div>
 </div>
 
 </body>

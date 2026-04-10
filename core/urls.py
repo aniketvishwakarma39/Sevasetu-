@@ -14,4 +14,9 @@ urlpatterns = [
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('my-dashboard/', views.my_dashboard, name='my_dashboard'),
     path('certificate/', views.generate_certificate, name='certificate'),
+    path('approve-part/<int:id>/', views.approve_participation),
+path('reject-part/<int:id>/', views.reject_participation),
+
+path('approve-spon/<int:id>/', views.approve_sponsorship),
+path('reject-spon/<int:id>/', views.reject_sponsorship),
 ]

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%3=mi464)*!l38-dn+5&q9d4pdbjrz*6)&ai8_v@7-2xyfs7uf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'chatbot'
+    'chatbot',
+    'sos'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,11 @@ AUTH_USER_MODEL = 'core.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'aniketvishwa39@gmail.com'
+EMAIL_HOST_PASSWORD = 'vjea kxmu jwwl rnic'

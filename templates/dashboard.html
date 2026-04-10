@@ -18,12 +18,26 @@ body {
 }
 
 .btn {
-    padding:10px 15px;
-    background:#00ffd5;
+    padding:8px 12px;
     border:none;
-    border-radius:8px;
+    border-radius:6px;
     cursor:pointer;
     font-weight:bold;
+    margin:3px;
+}
+
+.create-btn {
+    background:#00ffd5;
+}
+
+.accept {
+    background:green;
+    color:white;
+}
+
+.reject {
+    background:red;
+    color:white;
 }
 
 .card {
@@ -40,10 +54,11 @@ body {
 <div class="top-bar">
     <h2>Creator Dashboard</h2>
     <a href="/create-event/">
-        <button class="btn">+ Create Event</button>
+        <button class="btn create-btn">+ Create Event</button>
     </a>
 </div>
 
+<!-- 🔥 EVENTS -->
 <h3>Your Events</h3>
 
 {% for event in events %}
@@ -55,18 +70,34 @@ body {
 <p>No events created yet</p>
 {% endfor %}
 
-<h3>Participants</h3>
+
+<!-- 🔥 VOLUNTEERS -->
+<h3>Volunteer Requests</h3>
 
 {% for p in participations %}
 <div class="card">
     <p><strong>Name:</strong> {{ p.user.username }}</p>
     <p><strong>Email:</strong> {{ p.user.email }}</p>
     <p><strong>Event:</strong> {{ p.event.title }}</p>
+    <p><strong>Status:</strong> {{ p.status }}</p>
+
+    {% if p.status == "pending" %}
+        <a href="/approve-part/{{ p.id }}/">
+            <button class="btn accept">Accept</button>
+        </a>
+
+        <a href="/reject-part/{{ p.id }}/">
+            <button class="btn reject">Reject</button>
+        </a>
+    {% endif %}
 </div>
 {% empty %}
-<p>No participants yet</p>
+<p>No volunteer requests</p>
 {% endfor %}
-<h3>Sponsorships</h3>
+
+
+<!-- 🔥 SPONSORS -->
+<h3>Sponsor Requests</h3>
 
 {% for s in sponsorships %}
 <div class="card">
@@ -74,9 +105,21 @@ body {
     <p><strong>Email:</strong> {{ s.sponsor.email }}</p>
     <p><strong>Amount:</strong> ₹{{ s.amount }}</p>
     <p><strong>Event:</strong> {{ s.event.title }}</p>
+    <p><strong>Status:</strong> {{ s.status }}</p>
+
+    {% if s.status == "pending" %}
+        <a href="/approve-spon/{{ s.id }}/">
+            <button class="btn accept">Accept</button>
+        </a>
+
+        <a href="/reject-spon/{{ s.id }}/">
+            <button class="btn reject">Reject</button>
+        </a>
+    {% endif %}
 </div>
 {% empty %}
-<p>No sponsorship yet</p>
+<p>No sponsorship requests</p>
 {% endfor %}
+
 </body>
 </html>

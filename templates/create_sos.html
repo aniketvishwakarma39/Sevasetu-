@@ -1,0 +1,9 @@
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="title" placeholder="Emergency Title" required><br>
+    <textarea name="description" placeholder="Describe emergency"></textarea><br>
+    <input name="location" placeholder="Location" required><br>
+
+    <button>Create SOS 🚨</button>
+</form>

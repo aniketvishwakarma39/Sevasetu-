@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOS Requests</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background: linear-gradient(135deg,#141e30,#243b55);
+            color: white;
+            padding: 20px;
+        }
+
+        h2 {
+            color: red;
+        }
+
+        .card {
+            background: #203a43;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid red;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .join {
+            background: orange;
+            color: black;
+        }
+
+        .accept {
+            background: green;
+            color: white;
+        }
+
+        .reject {
+            background: red;
+            color: white;
+        }
+
+        .top-bar {
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:20px;
+        }
+
+        .create-btn {
+            background:#00ffd5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-bar">
+    <h2>🚨 SOS Requests</h2>
+
+    <a href="/sos/create/">
+        <button class="btn create-btn">+ Create SOS</button>
+    </a>
+</div>
+
+{% for s in sos_list %}
+<div class="card">
+
+    <h3>{{ s.title }}</h3>
+    <p>{{ s.description }}</p>
+    <p><b>📍 {{ s.location }}</b></p>
+    <p><small>Created by: {{ s.created_by.username }}</small></p>
+
+    <!-- 🔥 JOIN BUTTON -->
+    {% if request.user.is_authenticated %}
+    <form action="{% url 'join_sos' s.id %}" method="POST">
+        {% csrf_token %}
+        <button class="btn join">Help Now 🚨</button>
+    </form>
+    {% else %}
+    <p>Login to help</p>
+    {% endif %}
+
+    <!-- 🔥 CREATOR APPROVAL SECTION -->
+    {% if request.user == s.created_by %}
+        <h4>👥 Requests</h4>
+
+        {% for j in s.sosjoin_set.all %}
+            <div style="margin-bottom:10px;">
+                <p>
+                    <strong>{{ j.volunteer.username }}</strong> - {{ j.status }}
+                </p>
+
+                {% if j.status == "pending" %}
+                    <a href="/sos/approve/{{ j.id }}/">
+                        <button class="btn accept">Accept</button>
+                    </a>
+
+                    <a href="/sos/reject/{{ j.id }}/">
+                        <button class="btn reject">Reject</button>
+                    </a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No requests yet</p>
+        {% endfor %}
+    {% endif %}
+
+</div>
+{% empty %}
+<p>No SOS requests available</p>
+{% endfor %}
+
+</body>
+</html>
