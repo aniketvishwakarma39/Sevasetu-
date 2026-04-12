@@ -1,9 +1,9 @@
 🚀 SevaSetu – Community Service Platform
 
-"Django" (https://img.shields.io/badge/Django-5.2-green?style=for-the-badge&logo=django)
-"Python" (https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
-"Status" (https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-"License" (https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+-"Django" (https://img.shields.io/badge/Django-5.2-green?style=for-the-badge&logo=django)
+-"Python" (https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
+-"Status" (https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+-"License" (https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 ---
 
