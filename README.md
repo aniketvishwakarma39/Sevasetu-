@@ -153,7 +153,7 @@ EMAIL_HOST_PASSWORD = 'your_app_password'
 
 🧑‍💻 Author
 
-Aniket Vishwakarma
+Community Sevasetu Team
 
 ---
 
